@@ -27,7 +27,7 @@ public class Main {
 	    JavaSparkContext sc = PREPARE_SPARK_CONTEXT();
 	    String logFilePath = args[0];
 
-	    // TODO exclude kpis to class with methods and all
+	    // TODO {"userId": "134256", "currencyFrom": "EUR", "currencyTo": "GBP", "amountSell": 1000, "amountBuy": 747.10, "rate": 0.7471, "timePlaced" : "14-JAN-15 10:27:44", "originatingCountry" : "FR"}
 	    JavaRDD<String> logLines = sc.textFile(logFilePath);
 		JavaRDD<CurrenciesHolder> parts = logLines.flatMap(CurrenciesHolder.PREPARE_LINES());
 		// TODO Boolean invalidData instead of nulls ;)
