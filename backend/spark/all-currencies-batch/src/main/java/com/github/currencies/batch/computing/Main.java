@@ -10,9 +10,8 @@ import java.net.UnknownHostException;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
+import com.github.currencies.holder.CurrenciesHolder;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 
 /**
@@ -21,23 +20,23 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
  * @author gra
  */
 public class Main {
-	private static final DateTimeFormatter DATE_TIME_FORMATTER_SAVE = DateTimeFormat.forPattern("yyyyMMddHHmm");
     public static void main( String[] args ) throws UnknownHostException, IOException, GeoIp2Exception {
 	    CHECK_USEGE(args);
 	    JavaSparkContext sc = PREPARE_SPARK_CONTEXT();
 	    String logFilePath = args[0];
 
-	    // TODO {"userId": "134256", "currencyFrom": "EUR", "currencyTo": "GBP", "amountSell": 1000, "amountBuy": 747.10, "rate": 0.7471, "timePlaced" : "14-JAN-15 10:27:44", "originatingCountry" : "FR"}
-	    JavaRDD<String> logLines = sc.textFile(logFilePath);
-		JavaRDD<CurrenciesHolder> parts = logLines.flatMap(CurrenciesHolder.PREPARE_LINES());
-		// TODO Boolean invalidData instead of nulls ;)
-		JavaRDD<CurrenciesHolder> withoutNulls = parts.filter(CurrenciesHolder.PREPARE_NOT_NULL_LINES());
+	    // TODO {"userId": "134256", "currencyFrom": "EUR", "currencyTo": "GBP", "amountSell": 1000, "amountBuy": 747.10
+	    //       , "rate": 0.7471, "timePlaced" : "14-JAN-15 10:27:44", "originatingCountry" : "FR"}
 
-		computeAndSaveSessions(withoutNulls);
-		computeAndSaveMinutes(withoutNulls);
+	    // TODO Stream from Flume
+	    JavaRDD<String> currencies = sc.textFile(logFilePath);
+		JavaRDD<CurrenciesHolder> parts = currencies.flatMap(CurrenciesHolder.FLAT_MAP_JSONS());
+		JavaRDD<CurrenciesHolder> withoutNulls = parts.filter(CurrenciesHolder.FILTER_NOT_NULL());
+
+//		computeAndSave(withoutNulls);
 
 		sc.stop();
-		DatabaseReaderWrapper.close();
+//		DatabaseReaderWrapper.close();
     }
 
     // TODO line: {"userId": "134256", "currencyFrom": "EUR", "currencyTo": "GBP", "amountSell": 1000, "amountBuy": 747.10, "rate": 0.7471, "timePlaced" : "14-JAN-15 10:27:44", "originatingCountry" : "FR"}

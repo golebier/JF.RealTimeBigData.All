@@ -38,9 +38,9 @@ public class Main {
     private static void loadAndTest(JavaSparkContext sc, String esIndexName, String validDataPath) {
 		JavaPairRDD<String, Map<String, Object>> esRDD = JavaEsSpark.esRDD(sc, esIndexName);
 		JavaRDD<String> validationData = sc.textFile(validDataPath);
-		long sessionsReadcount = esRDD.count();
+		long currenciesReadcount = esRDD.count();
 		long validationDatacount = validationData.count();
-		Assert.assertEquals(sessionsReadcount, validationDatacount, "TEST began:"+esIndexName+", "+validDataPath);
+		Assert.assertEquals(currenciesReadcount, validationDatacount, "TEST began:"+esIndexName+", "+validDataPath);
 		JavaPairRDD<String, Tuple2<String, Map<String, Object>>> cesRDD = validationData.cartesian(esRDD);
 		JavaPairRDD<String, Tuple2<Tuple2<String, Map<String, Object>>, Boolean>> maped = cesRDD.mapToPair(
 				new PairFunction<Tuple2<String, Tuple2<String, Map<String, Object>>>
@@ -82,7 +82,7 @@ public class Main {
 		    }
         });
 		long filteredEsRDDcount = filteredEsRDD.count();
-		Assert.assertEquals(sessionsReadcount, filteredEsRDDcount, "TEST ended:"+esIndexName+", "+validDataPath);
+		Assert.assertEquals(currenciesReadcount, filteredEsRDDcount, "TEST ended:"+esIndexName+", "+validDataPath);
 	}
 
 	private static JavaSparkContext PREPARE_SPARK_CONTEXT() {
