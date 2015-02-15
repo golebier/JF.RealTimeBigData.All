@@ -16,3 +16,11 @@ Should be used ;) :
  Security
  Testing
 
+
+
+
+# I do not have too much time for this, I hope I can improve all in the future.
+# So, I just start from big picture solved to small pieces.
+# At the end if time will be kind, then I'll refactor all to NICE piece of work ;)
+
+
