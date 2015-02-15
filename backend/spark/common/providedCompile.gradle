@@ -1,0 +1,40 @@
+/*
+ ... 
+*/
+
+apply plugin: 'maven'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+configurations {
+  providedCompile
+}
+
+sourceSets {
+  main.compileClasspath += [configurations.providedCompile]
+}
+
+task mappings {
+  conf2ScopeMappings.addMapping(0, configurations.providedCompile, Conf2ScopeMappingContainer.PROVIDED)
+}
+
+idea {
+  module {
+    scopes.PROVIDED.plus += [configurations.providedCompile]
+  }
+}
+
+javadoc {
+  classpath += [configurations.providedCompile]
+}
+
+eclipse {
+    classpath {
+        plusConfigurations += [configurations.providedCompile]
+
+        //default settings for downloading sources and Javadoc:
+        downloadSources = true
+        downloadJavadoc = false
+    }
+}
+

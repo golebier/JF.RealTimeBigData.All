@@ -1,0 +1,10 @@
+/*
+ ...
+*/
+
+include 'all-currencies-batch' // one to rule then all ;)
+include 'all-currencies-realtime'
+include 'test-all-currencies-results' //  
+
+rootProject.name = 'currency'
+
