@@ -50,9 +50,59 @@ public class CurrentiesHolderTest {
     }
 
     @Test
+    public void shouldParsedCurrentiesHolderUserIdTest() throws UnknownHostException, IOException, GeoIp2Exception {
+    	CurrenciesHolder currentiesHolder = CurrenciesHolder.parseFromCurrencyJson(JSON_STRING);
+    	Assert.assertEquals(currentiesHolder.getUserId(), "134256");
+    }
+
+    @Test
+    public void shouldParsedCurrentiesHolderCurrencyFromTest() throws UnknownHostException, IOException, GeoIp2Exception {
+    	CurrenciesHolder currentiesHolder = CurrenciesHolder.parseFromCurrencyJson(JSON_STRING);
+    	Assert.assertEquals(currentiesHolder.getCurrencyFrom(), "EUR");
+    }
+
+    @Test
+    public void shouldParsedCurrentiesHolderCurrencyToTest() throws UnknownHostException, IOException, GeoIp2Exception {
+    	CurrenciesHolder currentiesHolder = CurrenciesHolder.parseFromCurrencyJson(JSON_STRING);
+    	Assert.assertEquals(currentiesHolder.getCurrencyTo(), "GBP");
+    }
+
+    @Test
+    public void shouldParsedCurrentiesHolderOriginatingCountryTest() throws UnknownHostException, IOException, GeoIp2Exception {
+    	CurrenciesHolder currentiesHolder = CurrenciesHolder.parseFromCurrencyJson(JSON_STRING);
+    	Assert.assertEquals(currentiesHolder.getOriginatingCountry(), "FR");
+    }
+
+    @Test
+    public void shouldParsedCurrentiesHolderAmountSellTest() throws UnknownHostException, IOException, GeoIp2Exception {
+    	CurrenciesHolder currentiesHolder = CurrenciesHolder.parseFromCurrencyJson(JSON_STRING);
+    	Assert.assertEquals(currentiesHolder.getAmountSell(), 1000.0D);
+    }
+
+    @Test
+    public void shouldParsedCurrentiesHolderAmountBuyTest() throws UnknownHostException, IOException, GeoIp2Exception {
+    	CurrenciesHolder currentiesHolder = CurrenciesHolder.parseFromCurrencyJson(JSON_STRING);
+    	Assert.assertEquals(currentiesHolder.getAmountBuy(), 747.10D);
+    }
+
+    @Test
+    public void shouldParsedCurrentiesHolderRateTest() throws UnknownHostException, IOException, GeoIp2Exception {
+    	CurrenciesHolder currentiesHolder = CurrenciesHolder.parseFromCurrencyJson(JSON_STRING);
+    	Assert.assertEquals(currentiesHolder.getRate(), 0.7471D);
+    }
+
+    @Test
+    public void shouldParsedCurrentiesHolderTimePlacedTest() throws UnknownHostException, IOException, GeoIp2Exception {
+    	CurrenciesHolder currentiesHolder = CurrenciesHolder.parseFromCurrencyJson(JSON_STRING);
+    	Assert.assertEquals(currentiesHolder.getTimePlaced(), new DateTime(2015, 01, 14, 10, 27, 44));
+    }
+
+    // test for a joda date time format-er bug
+    @Test
     public void cleanDateTest() throws ParseException {
     	Assert.assertNotNull(DateTime.parse(fixBugyMMM("14-JAN-15 10:27:44"), DateTimeFormat.forPattern(("dd-MM-yy HH:mm:ss"))));
     }
+
     private String fixBugyMMM(String bugyDate) {
     	for (String key : monthMapping.keySet()) {
     		bugyDate = bugyDate.replaceAll(key, monthMapping.get(key));
