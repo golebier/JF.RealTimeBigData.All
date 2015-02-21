@@ -63,9 +63,6 @@ public class Main {
 			    }
 		    });
 		// TODO save ES instead
-//		computeAndSave(withoutNulls);
-//		DatabaseReaderWrapper.close();
-	    //jsons.print();
 	    JavaDStream<Long> countreduced = reduced.count();
 	    JavaDStream<Long> count = lines.count();
 	    // show amount of jsons per a sec
