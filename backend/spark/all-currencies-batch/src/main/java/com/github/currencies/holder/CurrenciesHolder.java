@@ -43,8 +43,6 @@ public class CurrenciesHolder {
         }
     };
 
-	// TODO {"userId": "134256", "currencyFrom": "EUR", "currencyTo": "GBP", "amountSell": 1000.0, "amountBuy": 747.10
-    //       , "rate": 0.7471, "timePlaced" : "14-JAN-15 10:27:44", "originatingCountry" : "FR"}
 	String userId;
 	// enum?
 	String currencyFrom;
@@ -54,6 +52,15 @@ public class CurrenciesHolder {
 	Double amountBuy;
 	Double rate; // could be counted: amountBuy/amountSell, or any combination of those.
 	DateTime timePlaced;
+
+	public static FlatMapFunction<String, CurrenciesHolder> PREPARE_LINES() {
+		return new FlatMapFunction<String, CurrenciesHolder>() {
+			private static final long serialVersionUID = 791964479110084749L;
+			public Iterable<CurrenciesHolder> call(String s) throws UnknownHostException, IOException, GeoIp2Exception {
+				return Arrays.asList(CurrenciesHolder.parseFromCurrencyJson(s));
+            }
+        };
+	}
 	
 	public static CurrenciesHolder parseFromCurrencyJson(String json) throws UnknownHostException, IOException, GeoIp2Exception {
 		JSONObject obj = (JSONObject)JSONValue.parse(json);
@@ -157,5 +164,11 @@ public class CurrenciesHolder {
 	}
 	public DateTime getTimePlaced() {
 		return timePlaced;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("userId %s, currencyFrom %s, currencyTo %s, originatingCountry %s, amountSell %f, amountBuy %f, rate %f, timePlaced %d"
+			   , userId, currencyFrom, currencyTo, originatingCountry, amountSell, amountBuy, rate, timePlaced.getMillis());
 	}
 }
