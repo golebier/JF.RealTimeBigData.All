@@ -84,10 +84,14 @@ public class CurrenciesHolder {
 	    	return null;
 	    }
 		// TODO improve this mapping
-		Double amountSell = (Double)obj.get("amountSell");
-		if (null == amountSell) {
-			amountSell = 0D;
+		Object amountSellObject = obj.get("amountSell");
+		if (null == amountSellObject) {
+			amountSellObject = new Double(0);
 	    }
+		Double amountSell = 0D;
+		if (amountSellObject instanceof Long) {
+			amountSell = ((Long) amountSellObject).doubleValue();
+		}
 		Double amountBuy = (Double)obj.get("amountBuy");
 		if (null == amountBuy) {
 			amountBuy = 0D;
