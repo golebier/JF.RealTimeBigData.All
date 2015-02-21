@@ -136,7 +136,6 @@ public class CurrenciesHolder {
         };
 	}
 
-	// avr amount sell/buy,  currency, ..., make fun ;)
 	private CurrenciesHolder(String userId, String currencyFrom, String currencyTo, String originatingCountry
 			, Double amountSell, Double amountBuy, Double rate, DateTime timePlaced) {
 		this.userId = userId;
@@ -180,15 +179,26 @@ public class CurrenciesHolder {
 			   , userId, currencyFrom, currencyTo, originatingCountry, amountSell, amountBuy, rate, timePlaced.getMillis());
 	}
 
-	public Tuple2<Tuple3<String, String, String>, Tuple3<Double, Double, Double>> prepareMapToPairs() {
-		return new Tuple2<Tuple3<String, String, String>, Tuple3<Double, Double, Double>>(
-				new Tuple3<String, String, String>(originatingCountry, currencyFrom, currencyTo)
-				, new Tuple3<Double, Double, Double>(amountSell, amountBuy, rate)
-				);
+	public Tuple2<Tuple3<String, String, String>, CurrenciesHolder> prepareMapToPairs() {
+		return new Tuple2<Tuple3<String, String, String>, CurrenciesHolder>(
+				new Tuple3<String, String, String>(originatingCountry, currencyFrom, currencyTo), this);
 	}
 
 	public boolean noAnyNull() {
 		return !(StringUtils.isEmpty(currencyFrom)||StringUtils.isEmpty(currencyTo)
 				||StringUtils.isEmpty(originatingCountry)||(null==timePlaced));
+	}
+
+	public void sumAmountSell(Double amountSell) {
+		this.amountSell += amountSell;
+	}
+
+	public void sumAmountBuy(Double amountBuy) {
+		this.amountBuy += amountBuy;
+	}
+
+	public void avrRate(Double rate) {
+		double r = this.rate + rate;
+		this.rate = r/2;
 	}
 }

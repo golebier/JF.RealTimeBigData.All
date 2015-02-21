@@ -47,44 +47,49 @@ public class Main {
 				  return (null!=s)&&s.noAnyNull();
 		    }
         });
-	    JavaPairDStream<Tuple3<String, String, String>, Tuple3<Double, Double, Double>> pairs
+	    JavaPairDStream<Tuple3<String, String, String>, CurrenciesHolder> pairs
 	    	= jsons.mapToPair(new PairFunction<CurrenciesHolder
-	    			, Tuple3<String, String, String>, Tuple3<Double, Double, Double>>() {
+	    			, Tuple3<String, String, String>, CurrenciesHolder>() {
 				private static final long serialVersionUID = -5800347417661881676L;
-				public Tuple2<Tuple3<String, String, String>, Tuple3<Double, Double, Double>>
+				public Tuple2<Tuple3<String, String, String>, CurrenciesHolder>
 					call(CurrenciesHolder data) {
 					return data.prepareMapToPairs();
 				}});
-	    JavaPairDStream<Tuple3<String, String, String>, Tuple3<Double, Double, Double>> reduced
+	    JavaPairDStream<Tuple3<String, String, String>, CurrenciesHolder> reduced
 	    	= pairs.reduceByKey(new Function2<
-	    			Tuple3<Double, Double, Double>, Tuple3<Double, Double, Double>, Tuple3<Double, Double, Double>>() {
+	    			CurrenciesHolder, CurrenciesHolder, CurrenciesHolder>() {
 				private static final long serialVersionUID = -5793498283912220473L;
 				@Override
-				public Tuple3<Double, Double, Double>
-					call(Tuple3<Double, Double, Double> a, Tuple3<Double, Double, Double> b) {
+				public CurrenciesHolder call(CurrenciesHolder a, CurrenciesHolder b) {
 					// set on CurrenciesHolder fields ;)
-			        return new Tuple3<Double, Double, Double>(a._1()+b._1(), a._2()+b._2(), (a._3()+b._3())/2);
+					a.sumAmountSell(b.getAmountSell());
+	    			a.sumAmountBuy(b.getAmountBuy());
+	    			a.avrRate(b.getRate());
+			        return a;
 			    }
 		    });
 
 	    // TODO batch corrections
+	    // TODO compress distributed implementations
 	    // TODO UI
 
 	    // Ok, add more of the CurrenciesHolder fields = use CurrenciesHolder
 		// save ES instead -- prepare data
 	    JavaDStream<Map<String, Object>> javaRDD = reduced.map(
-        		new Function<Tuple2<Tuple3<String, String, String>, Tuple3<Double, Double, Double>>, Map<String, Object>>() {
+        		new Function<Tuple2<Tuple3<String, String, String>, CurrenciesHolder>, Map<String, Object>>() {
 			private static final long serialVersionUID = -6509311005347136809L;
 			@Override
 	  		public Map<String, Object>
-				call(Tuple2<Tuple3<String, String, String>, Tuple3<Double, Double, Double>> data) throws Exception {
+				call(Tuple2<Tuple3<String, String, String>, CurrenciesHolder> data) throws Exception {
 	  			Map<String, Object> line = new HashMap<String, Object>();
+	  			// add all fields from CurrenciesHolder
 	  			line.put("originatingCountry", data._1()._1());
 	  			line.put("currencyFrom", data._1()._2());
 	  			line.put("currencyTo", data._1()._3());
-	  			line.put("amountSell", data._2()._1().toString());
-	  			line.put("amountBuy", data._2()._2().toString());
-	  			line.put("rate", data._2()._3().toString());
+	  			// or even the new type
+	  			line.put("amountSell", data._2().getAmountSell().toString());
+	  			line.put("amountBuy", data._2().getAmountBuy().toString());
+	  			line.put("rate", data._2().getRate().toString());
 	  			return line;
 	  		}
 	  	});
