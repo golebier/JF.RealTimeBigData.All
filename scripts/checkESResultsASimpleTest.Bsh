@@ -1,0 +1,2 @@
+curl -XGET 'localhost:9200/currency_batch_spark_dev/_search/?size=1000&pretty=1'|grep "\"_source\":"|wc -l ; echo ""; curl -XGET 'localhost:9200/currency_streaming_spark_dev/_search/?size=1000&pretty=1'|grep "\"_source\":"|wc -l ; echo "" ; curl -XGET 'localhost:9200/currency_streaming_spark_dev/_search/?search_type=count' -d '{"size":0,"aggs":{"rate":{"sum":{"field":"rate"}},"amountBuy":{"sum":{"field":"amountBuy"}}}}' ; echo ""
+
