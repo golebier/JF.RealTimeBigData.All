@@ -50,8 +50,8 @@ public class Main {
 	private static JavaStreamingContext PREPARE_SPARK_CONTEXT() {
 		SparkConf conf = new SparkConf().setAppName("Batch Analytics");
 		conf.set("es.nodes", "elasticsearch-1:9200");
-//		conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer");
-//		conf.set("spark.kryo.registrator", "com.github.currencies.batch.computing.AnalyticsRegistrator");
+		conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer");
+		conf.set("spark.kryo.registrator", "com.github.currencies.registrator.CurrenciesRegistrator");
 		return new JavaStreamingContext(conf, Durations.seconds(1));
 	}
 }
