@@ -1,0 +1,4 @@
+bash SendCFPosts.Bsh
+# above is waiting for SparkStreaming flow, so now U must run Spark Streaming flow via: SparkStreamingFlow.Bsh in another terminal
+bash checkESResultsASimpleTest.Bsh
+
