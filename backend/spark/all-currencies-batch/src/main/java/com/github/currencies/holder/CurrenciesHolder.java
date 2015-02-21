@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function;
 import org.joda.time.DateTime;
@@ -13,6 +14,9 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+
+import scala.Tuple2;
+import scala.Tuple3;
 
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 
@@ -174,5 +178,17 @@ public class CurrenciesHolder {
 	public String toString() {
 		return String.format("userId %s, currencyFrom %s, currencyTo %s, originatingCountry %s, amountSell %f, amountBuy %f, rate %f, timePlaced %d"
 			   , userId, currencyFrom, currencyTo, originatingCountry, amountSell, amountBuy, rate, timePlaced.getMillis());
+	}
+
+	public Tuple2<Tuple3<String, String, String>, Tuple3<Double, Double, Double>> prepareMapToPairs() {
+		return new Tuple2<Tuple3<String, String, String>, Tuple3<Double, Double, Double>>(
+				new Tuple3<String, String, String>(originatingCountry, currencyFrom, currencyTo)
+				, new Tuple3<Double, Double, Double>(amountSell, amountBuy, rate)
+				);
+	}
+
+	public boolean noAnyNull() {
+		return !(StringUtils.isEmpty(currencyFrom)||StringUtils.isEmpty(currencyTo)
+				||StringUtils.isEmpty(originatingCountry)||(null==timePlaced));
 	}
 }
