@@ -33,9 +33,11 @@ public class Main {
 	    
 		// TODO save ES instead
 //		computeAndSave(withoutNulls);
-
 //		DatabaseReaderWrapper.close();
-	    jsons.print();
+	    //jsons.print();
+	    JavaDStream<Long> count = jsons.count();
+	    count.print();
+
 	    ssc.start();
 	    ssc.awaitTermination();
     }
