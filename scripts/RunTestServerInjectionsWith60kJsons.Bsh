@@ -1,0 +1,1 @@
+cat CF.60000jsons.POSTS | nc -l -p 9999
