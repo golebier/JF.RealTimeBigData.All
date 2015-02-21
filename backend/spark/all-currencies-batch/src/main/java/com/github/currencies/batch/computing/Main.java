@@ -69,8 +69,8 @@ public class Main {
 			    }
 		    });
 
-	    // TODO batch corrections
-	    // TODO compress distributed implementations
+	    // TODO batch corrections                     |
+	    // TODO compress distributed implementations  | --- those two I'll add in the future, this is good idea to correct real time results with batch results, but not for now.
 	    // TODO UI
 
 	    // Ok, add more of the CurrenciesHolder fields = use CurrenciesHolder
@@ -125,7 +125,8 @@ public class Main {
 
 	private static JavaStreamingContext PREPARE_SPARK_CONTEXT() {
 		SparkConf conf = new SparkConf().setAppName("Real time currencyF.");
-		conf.set("es.nodes", "elasticsearch-1:9200");
+		// TODO add ES URl as a args[3] 
+		conf.set("es.nodes", "localhost:9200");
 		conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer");
 		conf.set("spark.kryo.registrator", "com.github.currencies.registrator.CurrenciesRegistrator");
 		return new JavaStreamingContext(conf, Durations.seconds(1));
