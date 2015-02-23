@@ -25,10 +25,11 @@ Should be used ;) :
 
 # needed:
 
-linux ;)
+linux ;) I used ArchLinux
 gradle: 2.2.1 or above
 spark: 1.2.1
 elasticsearch: 1.4.4
+netcat: 1.105 (openbsd-netcat)
 
 # how to run:
 
@@ -37,10 +38,10 @@ elasticsearch: 1.4.4
 --- first terminal:
 cd $PROJECT/scripts
 bash MakeNHsTestFileWithMkJsonsPerSec.Bsh # prepares 1h test file with 60000 jsons per second, It can take a bit, then U can use: Prepare60000jsonsForTests.Bsh
-bash ASimpleTestFlowPostToEs.Bsh
+bash ASimpleTestFlowPostToEs.Bsh # if U used Prepare60000jsonsForTests.Bsh then change in SendCFPosts.Bsh file name
 
 --- second terminal:
-$ELASTICSEARCH/bin/elasticsearch
+$ELASTICSEARCH/bin/elasticsearch # wait a sec for ES initialization
 
 
 --- third terminal:
@@ -50,6 +51,7 @@ bash ../../../scripts/SparkStreamingFlow.Bsh # change PUT_Ur_SPARK_MASTER_URL to
 
 --- fourth terminal:
 while true; do curl -XGET 'localhost:9200/currency_streaming_spark_dev/_search/?pretty=1'; done # U'll see all received results in realtime
+bash ../../../scripts/streaming_and_batch_es_mapping_spark.Bsh # to clean indexes
 
 # TODO
 --- backend with batch computations and saving correction results to ES
