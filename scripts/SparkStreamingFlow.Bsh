@@ -1,9 +1,8 @@
 gradle clean jar && time $SPARK/bin/spark-submit \
  --master PUT_Ur_SPARK_MASTER_URL \
  --executor-memory 2G \
- --jars "$(Sg jackson-databind-2.5.0.jar)","$(Sg jackson-annotations-2.5.0.jar)","$(Sg jackson-core-2.5.0.jar)","$(Sg boon-0.30.jar)","$(Sg elasticsearch-spark_2.10-2.1.0.Beta3.jar)","$(Sg joda-time-2.6.jar)","$(Sg json-simple-1.1.1.jar)","$(Sg geoip2-2.1.0.jar)","$(Sg maxmind-db-1.0.0.jar)","$(Sg guava-15.0.jar)","$(Sg UserAgentUtils-1.15.jar)" \
+ --jars "$(find ~/.gradle/ -name elasticsearch-spark_2.10-2.1.0.Beta3.jar)","$(find ~/.gradle/ -name joda-time-2.6.jar)","$(find ~/.gradle/ -name json-simple-1.1.1.jar)","$(find ~/.gradle/ -name geoip2-2.1.0.jar)","$(find ~/.gradle/ -name maxmind-db-1.0.0.jar)","$(find ~/.gradle/ -name guava-15.0.jar)","$(find ~/.gradle/ -name UserAgentUtils-1.15.jar)" \
  --class com.github.currencies.batch.computing.Main build/libs/currencies.jar localhost 9999 localhost:9200
 
 # TODO clean not used jars
-# TODO add Sg script
 
