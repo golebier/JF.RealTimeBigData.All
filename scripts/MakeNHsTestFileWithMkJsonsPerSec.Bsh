@@ -1,0 +1,8 @@
+rm CF.60kjsonsPsBy1h.POSTS; for HH in "01"; do for MM in 01 02 03 04 05 06 07 08 09 $(seq 10 59); do for SS in 01 02 03 04 05 06 07 08 09 $(seq 10 59); do for I in $(seq 1 60000); do echo '{"userId": "134256", "currencyFrom": "EUR", "currencyTo": "GBP", "amountSell": 1000, "amountBuy": 747.10, "rate": 0.7471, "timePlaced" : "14-JAN-15 '"$HH:$MM:$SS"'", "originatingCountry" : "FR"}' >> CF.60kjsonsPsBy1h.POSTS; done; done; done; done
+
+# change file name
+# change HH amount if U need
+# change 60000 to any jsons per a second U need
+
+# this is a simple version, I'll add a Spark Implementation to randomize made file.
+
