@@ -1,1 +1,1 @@
-for I in $(seq 1 60000); do echo '{"userId": "134256", "currencyFrom": "EUR", "currencyTo": "GBP", "amountSell": 1000, "amountBuy": 747.10, "rate": 0.7471, "timePlaced" : "14-JAN-15 10:27:44", "originatingCountry" : "FR"}' >> CF.60000jsons.POSTS; done
+rm CF.60000jsons.POSTS; for I in $(seq 1 60000); do echo '{"userId": "134256", "currencyFrom": "EUR", "currencyTo": "GBP", "amountSell": 1000, "amountBuy": 747.10, "rate": 0.7471, "timePlaced" : "14-JAN-15 10:27:44", "originatingCountry" : "FR"}' >> CF.60000jsons.POSTS; done
