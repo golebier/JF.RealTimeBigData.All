@@ -5,6 +5,7 @@
 import java.text.SimpleDateFormat
 
 apply plugin: 'java'
+apply plugin: 'scala'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
@@ -51,16 +52,17 @@ jar {
 
 // >>>> less uberjar, I use this to enable fast copy to vms and test
 dependencies {
-  providedCompile(group: 'org.apache.spark', name: 'spark-core_2.10', version: '1.2.0')
-  providedCompile(group: 'org.apache.spark', name: 'spark-streaming_2.10', version: '1.2.0')
+  providedCompile(group: 'org.apache.spark', name: 'spark-core_2.10', version: '1.1.1')//'1.2.1') // 1.1.0
+  providedCompile(group: 'org.apache.spark', name: 'spark-streaming_2.10', version: '1.1.1')//'1.2.1')
+  providedCompile(group: 'org.elasticsearch', name: 'elasticsearch-spark_2.10', version: '2.1.0.Beta3')
+  providedCompile(group: 'joda-time', name: 'joda-time', version: '2.7')
+  providedCompile(group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1')
+
   providedCompile(group: 'com.maxmind.geoip2', name: 'geoip2', version: '2.1.0')
   providedCompile(group: 'com.maxmind.db', name: 'maxmind-db', version: '1.0.0')
-  providedCompile(group: 'joda-time', name: 'joda-time', version: '2.7')
   providedCompile(group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-core', version: hadoopVersion)
-  providedCompile(group: 'org.elasticsearch', name: 'elasticsearch-spark_2.10', version: '2.1.0.Beta3')
   providedCompile(group: 'eu.bitwalker', name: 'UserAgentUtils', version: '1.15')
   providedCompile(group: 'org.testng', name: 'testng', version: '6.8.17')
-  providedCompile(group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1')
   providedCompile(group: 'io.fastjson', name: 'boon', version: '0.30')
   providedCompile(group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.5.0')
 }

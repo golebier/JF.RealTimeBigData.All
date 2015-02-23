@@ -3,6 +3,7 @@
 */
 apply from: "${rootDir}/etc/s3Upload.gradle"
 
+apply plugin: 'scala'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
