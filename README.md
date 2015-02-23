@@ -32,6 +32,8 @@ elasticsearch: 1.4.4
 
 # how to run:
 
+--- clone this procject to $PROJECT ;)
+
 --- first terminal:
 cd $PROJECT/scripts
 bash MakeNHsTestFileWithMkJsonsPerSec.Bsh # prepares 1h test file with 60000 jsons per second, It can take a bit, then U can use: Prepare60000jsonsForTests.Bsh
